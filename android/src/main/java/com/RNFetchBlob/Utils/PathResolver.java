@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.FileOutputStream;
 
+import tool.StorageDirUtil;
+
 public class PathResolver {
     public static String getRealPathFromURI(final Context context, final Uri uri) {
 
@@ -28,7 +30,7 @@ public class PathResolver {
                 final String type = split[0];
 
                 if ("primary".equalsIgnoreCase(type)) {
-                    return Environment.getExternalStorageDirectory() + "/" + split[1];
+                    return StorageDirUtil.getExternalStorageDirectory(context) + "/" + split[1];
                 }
 
                 // TODO handle non-primary volumes

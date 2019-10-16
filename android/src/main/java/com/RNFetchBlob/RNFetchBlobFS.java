@@ -35,6 +35,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import tool.StorageDirUtil;
+
 public class RNFetchBlobFS {
 
     ReactApplicationContext mCtx;
@@ -212,7 +214,7 @@ public class RNFetchBlobFS {
         String state;
         state = Environment.getExternalStorageState();
         if (state.equals(Environment.MEDIA_MOUNTED)) {
-            res.put("SDCardDir", Environment.getExternalStorageDirectory().getAbsolutePath());
+            res.put("SDCardDir", StorageDirUtil.getExternalStorageDirectory(ctx).getAbsolutePath());
             res.put("SDCardApplicationDir", ctx.getExternalFilesDir(null).getParentFile().getAbsolutePath());
         }
         res.put("MainBundleDir", ctx.getApplicationInfo().dataDir);
@@ -768,13 +770,13 @@ public class RNFetchBlobFS {
         }
     }
 
-    static void df(Callback callback) {
+    static void df(ReactApplicationContext RCTContext, Callback callback) {
         StatFs stat = new StatFs(Environment.getDataDirectory().getPath());
         WritableMap args = Arguments.createMap();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
             args.putString("internal_free", String.valueOf(stat.getFreeBytes()));
             args.putString("internal_total", String.valueOf(stat.getTotalBytes()));
-            StatFs statEx = new StatFs(Environment.getExternalStorageDirectory().getPath());
+            StatFs statEx = new StatFs(StorageDirUtil.getExternalStorageDirectory(RCTContext).getPath());
             args.putString("external_free", String.valueOf(statEx.getFreeBytes()));
             args.putString("external_total", String.valueOf(statEx.getTotalBytes()));
 

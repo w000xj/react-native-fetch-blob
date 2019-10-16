@@ -309,7 +309,7 @@ public class RNFetchBlob extends ReactContextBaseJavaModule {
         fsThreadPool.execute(new Runnable() {
             @Override
             public void run() {
-                RNFetchBlobFS.df(callback);
+                RNFetchBlobFS.df(RCTContext,callback);
             }
         });
     }
